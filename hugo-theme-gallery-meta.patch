@@ -1,0 +1,46 @@
+diff --git a/README.md b/README.md
+--- a/README.md
++++ b/README.md
+@@ -17,7 +17,7 @@
+ 
+ ## Installation
+ 
+-This theme requires Hugo Extended >= 0.123.0. Dependencies are bundled, so no Node.js/NPM and PostCSS is needed.
++This theme requires Hugo Extended >= 0.155.3. Dependencies are bundled, so no Node.js/NPM and PostCSS is needed.
+ 
+ ### As a Hugo Module
+ 
+diff --git a/exampleSite/config/_default/hugo.toml b/exampleSite/config/_default/hugo.toml
+--- a/exampleSite/config/_default/hugo.toml
++++ b/exampleSite/config/_default/hugo.toml
+@@ -28,7 +28,7 @@
+ 
+ [module]
+   [module.hugoVersion]
+-    min = "0.121.2"
++    min = "0.155.3"
+   [[module.imports]]
+     path = "github.com/nicokaiser/hugo-theme-gallery/v4"
+ 
+diff --git a/layouts/partials/gallery.html b/layouts/partials/gallery.html
+--- a/layouts/partials/gallery.html
++++ b/layouts/partials/gallery.html
+@@ -4,12 +4,14 @@
+     {{ range $image := where (.Resources.ByType "image") "Params.hidden" "ne" true }}
+       {{ $title := "" }}
+       {{ $date := "" }}
+-      {{ with $image.Exif }}
+-        {{ $date = .Date }}
+-        {{ with .Tags.ImageDescription }}
+-          {{/* Title from EXIF ImageDescription */}}
+-          {{ $title = . }}
++      {{ if reflect.IsImageResourceWithMeta $image }}
++        {{ with $image.Meta }}
++          {{ $date = .Date }}
++          {{ with .Exif.ImageDescription }}
++            {{/* Title from EXIF ImageDescription */}}
++            {{ $title = . }}
++          {{ end }}
+         {{ end }}
+       {{ end }}
+       {{ if ne $image.Title $image.Name }}
