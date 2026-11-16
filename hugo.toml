@@ -1,0 +1,39 @@
+title = "Gallery"
+theme = "hugo-theme-gallery"
+locale = "en"
+timeZone = "Europe/Paris"
+enableRobotsTXT = true
+copyright = "Copyright 2026 Daniel ZM. Code: AGPL-3.0-only. Photos: CC BY-NC 4.0."
+
+[params]
+  title = "Gallery"
+  description = "A photo gallery"
+  defaultTheme = "dark"
+
+[outputs]
+  home = ["HTML", "RSS"]
+  page = ["HTML"]
+  section = ["HTML"]
+
+[imaging]
+  resampleFilter = "CatmullRom"
+  [imaging.exif]
+    disableDate = false
+    disableLatLong = true
+    includeFields = "ImageDescription|Orientation"
+  [imaging.jpeg]
+    quality = 75
+  [imaging.webp]
+    quality = 75
+  [imaging.avif]
+    quality = 75
+
+[[menu.footer]]
+  name = "Code license"
+  url = "https://www.gnu.org/licenses/agpl-3.0.html"
+  weight = 1
+
+[[menu.footer]]
+  name = "Photo license"
+  url = "https://creativecommons.org/licenses/by-nc/4.0/"
+  weight = 2

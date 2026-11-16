@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Generate filenames (dry run)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/gen-filenames.py",
+      "args": ["--src", "${workspaceFolder}/content"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Generate filenames (remove dates)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/gen-filenames.py",
+      "args": ["--src", "${workspaceFolder}/content", "--do"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Generate filenames (keep dates)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/gen-filenames.py",
+      "args": ["--src", "${workspaceFolder}/content", "--do", "--keep-exif-dates"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
