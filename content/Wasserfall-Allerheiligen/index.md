@@ -1,6 +1,6 @@
 ---
-title: August 2, 2026
-description: A collection of photographs from August 2, 2026.
+title: Allerheiligen Wasserfall
+description: Wasserfall und Aussicht
 resources:
   - src: "Brunnen.jpeg"
     params:
