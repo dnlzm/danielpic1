@@ -25,7 +25,7 @@ diff --git a/exampleSite/config/_default/hugo.toml b/exampleSite/config/_default
 diff --git a/layouts/partials/gallery.html b/layouts/partials/gallery.html
 --- a/layouts/partials/gallery.html
 +++ b/layouts/partials/gallery.html
-@@ -4,12 +4,14 @@
+@@ -4,11 +4,13 @@
      {{ range $image := where (.Resources.ByType "image") "Params.hidden" "ne" true }}
        {{ $title := "" }}
        {{ $date := "" }}
@@ -34,6 +34,8 @@ diff --git a/layouts/partials/gallery.html b/layouts/partials/gallery.html
 -        {{ with .Tags.ImageDescription }}
 -          {{/* Title from EXIF ImageDescription */}}
 -          {{ $title = . }}
+-        {{ end }}
+-      {{ end }}
 +      {{ if reflect.IsImageResourceWithMeta $image }}
 +        {{ with $image.Meta }}
 +          {{ $date = .Date }}
@@ -41,6 +43,6 @@ diff --git a/layouts/partials/gallery.html b/layouts/partials/gallery.html
 +            {{/* Title from EXIF ImageDescription */}}
 +            {{ $title = . }}
 +          {{ end }}
-         {{ end }}
-       {{ end }}
++        {{ end }}
++      {{ end }}
        {{ if ne $image.Title $image.Name }}
