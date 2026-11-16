@@ -24,11 +24,17 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Apply proposed Hugo Gallery compatibility patch
+        run: |
+          git -C themes/hugo-theme-gallery apply --check hugo-theme-gallery-meta.patch
+          git -C themes/hugo-theme-gallery apply hugo-theme-gallery-meta.patch
+
       - name: Set up Hugo Extended
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: "0.150.0"
+          hugo-version: "0.170.0"
           extended: true
+          dart-sass-version: "1.108.2"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
