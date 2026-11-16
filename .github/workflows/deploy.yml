@@ -26,8 +26,9 @@ jobs:
 
       - name: Apply proposed Hugo Gallery compatibility patch
         run: |
-          git -C themes/hugo-theme-gallery apply --check hugo-theme-gallery-meta.patch
-          git -C themes/hugo-theme-gallery apply hugo-theme-gallery-meta.patch
+          patch_file="${GITHUB_WORKSPACE}/hugo-theme-gallery-meta.patch"
+          git -C themes/hugo-theme-gallery apply --check "$patch_file"
+          git -C themes/hugo-theme-gallery apply "$patch_file"
 
       - name: Set up Hugo Extended
         uses: peaceiris/actions-hugo@v3
