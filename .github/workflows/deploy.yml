@@ -24,11 +24,12 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Set up Hugo Extended
+      - name: Set up Hugo Extended and Dart Sass
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: "0.170.0"
           extended: true
+          dart-sass-version: "1.108.2"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
