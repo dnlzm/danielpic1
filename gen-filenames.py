@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # License text: https://www.gnu.org/licenses/agpl-3.0.html
 
-import argparse, importlib, pathlib, re, subprocess, sys
+import argparse, importlib, logging, os, pathlib, re, subprocess, sys
 
 try:
   ollama = importlib.import_module("ollama")
@@ -38,17 +38,42 @@ def main(
             model="qwen3-vl:8b",
             messages=[{"role": "user", "content": prompt, "images": [str(p)]}],
         )
-        words = r["message"]["content"].lower().translate(uml)
-        slug = re.sub(r"[^a-z0-9]+", "-", words).strip("-")[:60]
+        content = r["message"]["content"]
+        if not isinstance(content, str) or not content.strip():
+            logging.warning("No filename returned for %s; keeping its current name", p.name)
+            continue
+
+        words = content.lower().translate(uml)
+        slug = re.sub(r"[^a-z0-9]+", "-", words).strip("-")[:60].strip("-")
+        if not slug:
+            logging.warning("No usable filename returned for %s; keeping its current name", p.name)
+            continue
+
         new = p.with_name(f"{slug}{p.suffix}")
         print(f"{p.name} -> {new.name}")
+        if new == p:
+            if do and not keep_exif_dates:
+                subprocess.run(
+                    ["exiftool", "-P", "-overwrite_original", "-time:all=", str(p.resolve())],
+                    check=True,
+                )
+            continue
+        if new.exists():
+            logging.warning("Target %s already exists; keeping %s unchanged", new.name, p.name)
+            continue
+
         if do and not keep_exif_dates:
             subprocess.run(
-                ["exiftool", "-P", "-time:all=", str(p.resolve())],
+                ["exiftool", "-P", "-overwrite_original", "-time:all=", str(p.resolve())],
                 check=True,
             )
-        if do and not new.exists():
-            p.rename(new)
+        if do:
+            try:
+                os.link(p, new)
+            except FileExistsError:
+                logging.warning("Target %s already exists; keeping %s unchanged", new.name, p.name)
+                continue
+            p.unlink()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
