@@ -1,3 +1,4 @@
+baseURL = "https://dnlzm.github.io/danielpic1/"
 title = "Gallery"
 theme = "hugo-theme-gallery"
 locale = "en"
